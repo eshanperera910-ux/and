@@ -6,15 +6,15 @@ const configuredPrefix = process.env.PREFIX;
 const prefix = configuredPrefix === undefined || configuredPrefix === "" ? "." : String(configuredPrefix);
 
 const channel = Object.freeze({
-  name: "𝐁𝐄𝐍𝐅𝐄𝐈 𝐓𝐄𝐂𝐇 ™",
-  jid: "120363430518511561@newsletter"
+  name: "PANDA - MD",
+  jid: "120363415046561807@newsletter"
 });
 
 export default Object.freeze({
-  name: String(process.env.BOT_NAME || "FEI XMD").trim() || "FEI XMD",
+  name: String(process.env.BOT_NAME || "PANDA - MD").trim() || "PANDA - MD",
   version: String(process.env.BOT_VERSION || "1.0.0").trim() || "1.0.0",
   prefix,
-  ownerName: String(process.env.OWNER_NAME || "Benfei Tech").trim() || "Benfei Tech",
+  ownerName: String(process.env.OWNER_NAME || "𝐄ꜱʜᴀɴ 𝐏ᴇʀᴇʀᴀ").trim() || "Benfei Tech",
   ownerNumber,
   ownerNumbers: Object.freeze([ownerNumber]),
   defaultMode: String(process.env.BOT_MODE || "public").toLowerCase() === "private" ? "private" : "public",
@@ -25,7 +25,7 @@ export default Object.freeze({
   channel,
   imageUrl: String(
     process.env.BOT_IMAGE_URL ||
-    "https://res.cloudinary.com/dqqyvozdw/image/upload/v1792848652/arbeimjfqkkfpn9zvfhf.png"
+    "https://res.cloudinary.com/dqqyvozdw/image/upload/v1794804855/p1dyl845mh2cufewm3ns.png"
   ).trim(),
-  botUrl: String(process.env.BOT_URL || "https://fei-xmd.benfeilab.com").trim()
+  botUrl: String(process.env.BOT_URL || "https://pandaadvertising.lovable.app").trim()
 });
