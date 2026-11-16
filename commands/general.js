@@ -1,3 +1,4 @@
+
 import { buildMenu } from "../lib/menu.js";
 
 function formatDuration(seconds) {
@@ -33,19 +34,19 @@ const commands = [
     name: "menu",
     aliases: ["helpme"],
     category: "General",
-    description: "Show the branded FEI XMD menu and available command sections.",
+    description: "Show the branded PANDA-MD menu and available command sections.",
     run: async ctx => {
       const menu = buildMenu({ commands: ctx.commands, config: ctx.config, theme: ctx.theme });
       if (ctx.config.imageUrl) {
         try {
           await ctx.send({
             image: { url: ctx.config.imageUrl },
-            caption: "🤖 *FEI XMD — WhatsApp Bot by Benfei Tech*\n" +
-              "Official pairing portal: " + ctx.config.botUrl + "\n" +
-              "⚡ Powered by Benfei Tech"
+            caption: "🤖 *『ＰＡＮＤＡ-ＭＤ』*\n" +
+              "✦ Official WhatsApp Bot\n" +
+              "⚡ Powered by PANDA HOLDING'S (PVT) LTD"
           });
         } catch (error) {
-          console.warn("FEI XMD menu artwork could not be sent; using the text menu:", error?.message || error);
+          console.warn("PANDA-MD menu artwork could not be sent; using the text menu:", error?.message || error);
         }
       }
       await ctx.reply(menu);
@@ -61,18 +62,21 @@ const commands = [
         .slice()
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(command => ctx.config.prefix + command.name + (command.description ? " — " + command.description : ""));
-      const header = "📚 FEI XMD HELP\n" + rows.length + " registered commands\n\n";
+      const header = "╭━━⦿ ＰＡＮＤＡ-ＭＤ ＨＥＬＰ ⦿━━━┈✦\n" +
+        "┃ ❖ " + rows.length + " registered commands\n\n";
       const chunks = [];
       let current = header;
       for (const row of rows) {
         if (current.length + row.length + 1 > 3300) {
           chunks.push(current.trimEnd());
-          current = "📚 FEI XMD HELP (continued)\n\n";
+          current = "╭━━⦿ ＨＥＬＰ (ᴄᴏɴᴛɪɴᴜᴇᴅ) ⦿━━━┈✦\n\n";
         }
-        current += row + "\n";
+        current += "┃ ➥│ " + row + "\n";
       }
       if (current.trim()) chunks.push(current.trimEnd());
-      for (const chunk of chunks) await ctx.reply(chunk);
+      for (const chunk of chunks) {
+        await ctx.reply(chunk + "\n╰━━━━━━━━━━━━┈✦");
+      }
     }
   },
   {
@@ -83,12 +87,12 @@ const commands = [
       const timestamp = messageTimestampMs(ctx.msg);
       const responseMs = timestamp === null ? null : Math.max(0, Date.now() - timestamp);
       await ctx.reply([
-        "╭━━〔 🏓 FEI XMD · PONG 〕━━┈⊷",
-        "┃ ✦ Status: " + (ctx.connectionOpen ? "Online 🟢" : "Connecting 🟡"),
-        "┃ ✦ Response: " + (responseMs === null ? "Unavailable" : responseMs + " ms"),
-        "┃ ✦ Uptime: " + formatDuration(process.uptime()),
-        "┃ ✦ Version: " + ctx.config.version,
-        "╰━━━━━━━━━━━━━━━━━━━━━━┈⊷"
+        "╭━━⦿ 🏓 ＰＡＮＤＡ-ＭＤ · ＰＯＮＧ ⦿━━━┈✦",
+        "┃ ❖ Status: " + (ctx.connectionOpen ? "Online 🟢" : "Connecting 🟡"),
+        "┃ ❖ Response: " + (responseMs === null ? "Unavailable" : responseMs + " ms"),
+        "┃ ❖ Uptime: " + formatDuration(process.uptime()),
+        "┃ ❖ Version: " + ctx.config.version,
+        "╰━━━━━━━━━━━━━━━━━━━━┈✦"
       ].join("\n"));
     }
   },
@@ -99,33 +103,41 @@ const commands = [
     description: "Show bot status, mode and uptime.",
     run: async ctx => {
       await ctx.reply(
-        "✅ " + ctx.config.name + " is " + (ctx.connectionOpen ? "online." : "connecting.") +
-        "\n🔐 Mode: " + String(ctx.mode || "public").toUpperCase() +
-        "\n⏱️ Uptime: " + formatDuration(process.uptime()) +
-        "\n⚡ Powered by " + ctx.config.ownerName
+        "╭━━⦿ ＰＡＮＤＡ-ＭＤ ⦿━━━┈✦" +
+        "\n┃ ❖ Status: " + (ctx.connectionOpen ? "Online 🟢" : "Connecting 🟡") +
+        "\n┃ ❖ Mode: " + String(ctx.mode || "public").toUpperCase() +
+        "\n┃ ❖ Uptime: " + formatDuration(process.uptime()) +
+        "\n┃ ❖ Powered by PANDA HOLDING'S" +
+        "\n╰━━━━━━━━━━━━┈✦"
       );
     }
   },
   {
     name: "owner",
     category: "General",
-    description: "Show Benfei Tech owner details.",
+    description: "Show PANDA-MD owner details.",
     run: async ctx => {
       const number = ownerNumber(ctx.config);
       await ctx.reply(
-        "👑 Owner: " + ctx.config.ownerName +
-        (number ? "\n📱 Owner number: +" + number : "")
+        "╭━━⦿ 👑 ＯＷＮＥＲ ＩＮＦＯ ⦿━━━┈✦" +
+        "\n┃ ❖ Owner: " + ctx.config.ownerName +
+        (number ? "\n┃ ❖ Owner number: +" + number : "") +
+        "\n┃ ❖ Organization: PANDA HOLDING'S (PVT) LTD" +
+        "\n╰━━━━━━━━━━━━┈✦"
       );
     }
   },
   {
     name: "support",
     category: "General",
-    description: "Show support guidance for FEI XMD.",
+    description: "Show support guidance for PANDA-MD.",
     run: async ctx => {
       await ctx.reply(
-        "🛟 " + ctx.config.name + " Support\nFor setup help or bug reports, contact " +
-        ctx.config.ownerName + ".\n\nGitHub: https://github.com/Benfeitech/FEI-XMD"
+        "╭━━⦿ 🛟 ＰＡＮＤＡ-ＭＤ ＳＵＰＰＯＲＴ ⦿━━━┈✦" +
+        "\n┃ ❖ For setup help or bug reports, contact " +
+        ctx.config.ownerName + "." +
+        "\n┃ ❖ GitHub: https://github.com/Benfeitech/FEI-XMD" +
+        "\n╰━━━━━━━━━━━━┈✦"
       );
     }
   },
@@ -141,7 +153,11 @@ const commands = [
         second: "2-digit",
         hour12: true
       }).format(new Date());
-      await ctx.reply("🕒 Nigeria time: " + value);
+      await ctx.reply(
+        "╭━━⦿ 🕒 ＳＥＲＶＥＲ ＴＩＭＥ ⦿━━━┈✦" +
+        "\n┃ ❖ Nigeria: " + value +
+        "\n╰━━━━━━━━━━━━┈✦"
+      );
     }
   },
   {
@@ -156,19 +172,26 @@ const commands = [
         month: "long",
         year: "numeric"
       }).format(new Date());
-      await ctx.reply("📅 Date in Nigeria: " + value);
+      await ctx.reply(
+        "╭━━⦿ 📅 ＳＥＲＶＥＲ ＤＡＴＥ ⦿━━━┈✦" +
+        "\n┃ ❖ Nigeria: " + value +
+        "\n╰━━━━━━━━━━━━┈✦"
+      );
     }
   },
   {
     name: "version",
     category: "General",
-    description: "Show FEI XMD version and connection status.",
+    description: "Show PANDA-MD version and connection status.",
     run: async ctx => {
       await ctx.reply(
-        "🤖 " + ctx.config.name + " v" + ctx.config.version +
-        "\n🟢 Status: " + (ctx.connectionOpen ? "Online" : "Connecting") +
-        "\n🔐 Mode: " + String(ctx.mode || "public").toUpperCase() +
-        "\n📦 Baileys: official WhiskeySockets npm package"
+        "╭━━⦿ 🤖 ＢＯＴ ＩＮＦＯ ⦿━━━┈✦" +
+        "\n┃ ❖ Name: " + ctx.config.name +
+        "\n┃ ❖ Version: " + ctx.config.version +
+        "\n┃ ❖ Status: " + (ctx.connectionOpen ? "Online 🟢" : "Connecting 🟡") +
+        "\n┃ ❖ Mode: " + String(ctx.mode || "public").toUpperCase() +
+        "\n┃ ❖ Baileys: Official WhiskeySockets npm package" +
+        "\n╰━━━━━━━━━━━━┈✦"
       );
     }
   },
@@ -179,8 +202,10 @@ const commands = [
     description: "Show the current chat and message sender IDs.",
     run: async ctx => {
       await ctx.reply(
-        "💬 Chat ID: " + ctx.jid +
-        "\n👤 Sender ID: " + (ctx.senderJid || "Unavailable")
+        "╭━━⦿ 🆔 ＣＨＡＴ ＩＤ ⦿━━━┈✦" +
+        "\n┃ ❖ Chat ID: " + ctx.jid +
+        "\n┃ ❖ Sender ID: " + (ctx.senderJid || "Unavailable") +
+        "\n╰━━━━━━━━━━━━┈✦"
       );
     }
   },
@@ -190,9 +215,11 @@ const commands = [
     description: "Show your WhatsApp sender information.",
     run: async ctx => {
       await ctx.reply(
-        "👤 Name: " + (ctx.msg?.pushName || "Unknown") +
-        "\n🆔 Your ID: " + (ctx.senderJid || "Unavailable") +
-        "\n👑 Owner: " + (ctx.owner ? "Yes" : "No")
+        "╭━━⦿ 👤 ＵＳＥＲ ＩＮＦＯ ⦿━━━┈✦" +
+        "\n┃ ❖ Name: " + (ctx.msg?.pushName || "Unknown") +
+        "\n┃ ❖ Your ID: " + (ctx.senderJid || "Unavailable") +
+        "\n┃ ❖ Owner: " + (ctx.owner ? "Yes 👑" : "No") +
+        "\n╰━━━━━━━━━━━━┈✦"
       );
     }
   }
